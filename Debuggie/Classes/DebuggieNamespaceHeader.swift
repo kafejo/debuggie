@@ -14,7 +14,7 @@ class DebuggieNamespaceHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        self.contentView.backgroundColor = UIColor.whiteColor()
+        self.contentView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.015)
     }
     
     required init?(coder aDecoder: NSCoder) {

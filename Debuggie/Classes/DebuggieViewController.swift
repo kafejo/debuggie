@@ -20,9 +20,8 @@ class DebuggieViewController: UITableViewController {
         tableView.registerClass(DebuggieNamespaceHeader.self, forHeaderFooterViewReuseIdentifier: DebuggieNamespaceHeader.reuseIdentifier)
         tableView.rowHeight = 60
         tableView.separatorColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        tableView.backgroundView = UIVisualEffectView(effect: UIBlurEffect())
-        view.backgroundColor = UIColor.clearColor()
-        tableView.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = UIColor.whiteColor()
         
         displayedItems = Debuggie.sharedDebugger.records().keys.prepareForTable()
     }
