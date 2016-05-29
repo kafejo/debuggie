@@ -32,8 +32,8 @@ class TestService {
 
 extension TestService: Debuggable {
     enum DebugIdentifier: String, DebuggableIdentifier {
-        case TestRequest = "Test request"
-        case TestRequest2 = "Test request 2"
+        case TestRequest = "Print request body"
+        case TestRequest2 = "Print request params"
         
         static func allValues() -> [DebugIdentifier] {
             return [.TestRequest, .TestRequest2]
@@ -41,6 +41,6 @@ extension TestService: Debuggable {
     }
     
     static var namespace: String {
-        return "Test service"
+        return "APIClient"
     }
 }

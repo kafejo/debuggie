@@ -32,8 +32,8 @@ class TestService2 {
 
 extension TestService2: Debuggable {
     enum DebugIdentifier: String, DebuggableIdentifier {
-        case TestRequest = "Another request"
-        case TestRequest2 = "Another request 2"
+        case TestRequest = "Host login"
+        case TestRequest2 = "Mockup data"
         
         static func allValues() -> [DebugIdentifier] {
             return [.TestRequest, .TestRequest2]
@@ -41,7 +41,7 @@ extension TestService2: Debuggable {
     }
     
     static var namespace: String {
-        return "Another service"
+        return "Global settings"
     }
 }
 
