@@ -8,6 +8,7 @@
 Debuggie is simple visualizer for your app constants. It allows you to easily change what you want without recompiling your app every time you want to enable/disable your debuging macros. 
 
 Secret table with settings (accessible through volume buttons on your phone)
+
 <img src="https://raw.githubusercontent.com/kafejo/debuggie/master/debuggie-ss.png" width="200" />
 
 Debuggie is under heavy development.
