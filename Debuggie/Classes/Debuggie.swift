@@ -25,7 +25,7 @@ public class Debuggie: NSObject {
     }
     
     private var window: UIWindow?
-    var registations: [NamespacedKey: Bool] = [:]
+    private var _records: [NamespacedKey: Bool] = [:]
     private var isDebug: Bool
     
     init(isDebug: Bool) {
@@ -38,6 +38,7 @@ public class Debuggie: NSObject {
             
             window?.backgroundColor = UIColor.clearColor()
             window?.rootViewController = UINavigationController(rootViewController: DebuggieViewController())
+            loadSavedRecords()
         }
     }
     
@@ -62,29 +63,110 @@ public class Debuggie: NSObject {
             window?.hidden = !(window?.hidden ?? false)
         }
     }
+    
+    // MARK: - Persistency
+    
+    func settingsFileURL(fileName: String = "debuggie.settings") -> NSURL {
+        let manager = NSFileManager.defaultManager()
+        let dirUrl = try! manager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
+        
+        return dirUrl.URLByAppendingPathComponent(fileName)
+    }
+    
+    func saveRecords() {
+        let filePath = settingsFileURL().path!
+        let objects: [NamespacedKeyBox] = _records.map { (key, value) in
+            return NamespacedKeyBox(key: key, value: value)
+        }
+            
+        NSKeyedArchiver.archiveRootObject(objects, toFile: filePath)
+    }
+    
+    func loadSavedRecords() {
+        
+        if let settingsPath = settingsFileURL().path, settings = NSKeyedUnarchiver.unarchiveObjectWithFile(settingsPath) as? [NamespacedKeyBox] {
+            
+            settings.forEach { box in
+                _records.updateValue(box.value, forKey: box.key)
+            }
+        }
+    }
+    
+    // MARK: - Interface
+    
+    func setRecord(record: Bool, forKey key: NamespacedKey) {
+        _records[key] = record
+        saveRecords()
+    }
+    
+    func records() -> [NamespacedKey: Bool] {
+        return _records
+    }
 }
 
 // MARK: - Models
 
-struct NamespacedKey {
+class NamespacedKey: NSObject, NSCoding {
     let namespace: String
     let name: String
     
     var key: String {
         return [namespace, name].joinWithSeparator(".")
     }
+    
+    @objc required init(namespace: String, name: String) {
+        self.namespace = namespace
+        self.name = name
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        namespace = aDecoder.decodeObjectForKey("namespace") as! String
+        name = aDecoder.decodeObjectForKey("name") as! String
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(namespace, forKey: "namespace")
+        aCoder.encodeObject(name, forKey: "name")
+    }
+    
+    // Override hashable value
+    override var hashValue: Int {
+        return key.hashValue
+    }
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        if let object = object as? NamespacedKey {
+            return object == self
+        } else {
+            return false
+        }
+    }
+}
+
+class NamespacedKeyBox: NSObject, NSCoding {
+    let key: NamespacedKey
+    let value: Bool
+    
+    init(key: NamespacedKey, value: Bool) {
+        self.key = key
+        self.value = value
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        key = aDecoder.decodeObjectForKey("key") as! NamespacedKey
+        value = aDecoder.decodeObjectForKey("value") as! Bool
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(key, forKey: "key")
+        aCoder.encodeObject(value, forKey: "value")
+    }
 }
 
 func ==(lhs: NamespacedKey, rhs: NamespacedKey) -> Bool {
     return lhs.key == rhs.key
-}
-
-extension NamespacedKey: Equatable { }
-
-extension NamespacedKey: Hashable {
-    var hashValue: Int {
-        return key.hashValue
-    }
 }
 
 extension NamespacedKey: Comparable { }
@@ -115,14 +197,17 @@ public extension Debuggable where DebugIdentifier.RawValue == String {
         for value in DebugIdentifier.allValues() {
             let name = value.rawValue as! String
             let key = NamespacedKey(namespace: namespace, name: name)
-            Debuggie.sharedDebugger.registations[key] = true
+            
+            if Debuggie.sharedDebugger.records()[key] == nil {
+                Debuggie.sharedDebugger.setRecord(false, forKey: key)
+            }
         }
     }
     
     static func debugEnabled(identifier: DebugIdentifier) -> Bool {
         if Debuggie.sharedDebugger.isDebug {
             let key = NamespacedKey(namespace: namespace, name: identifier.rawValue)
-            return Debuggie.sharedDebugger.registations[key] ?? false
+            return Debuggie.sharedDebugger.records()[key] ?? false
         } else {
             return false
         }

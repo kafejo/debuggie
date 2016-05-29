@@ -24,7 +24,7 @@ class DebuggieViewController: UITableViewController {
         view.backgroundColor = UIColor.clearColor()
         tableView.backgroundColor = UIColor.clearColor()
         
-        displayedItems = Debuggie.sharedDebugger.registations.keys.prepareForTable()
+        displayedItems = Debuggie.sharedDebugger.records().keys.prepareForTable()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,9 +62,9 @@ class DebuggieViewController: UITableViewController {
         
         if let cell = cell as? DebuggieItemCell {
             cell.textLabel?.text = key.name
-            cell.availabilitySwitch.on = Debuggie.sharedDebugger.registations[key]!
+            cell.availabilitySwitch.on = Debuggie.sharedDebugger.records()[key]!
             cell.availabilityDidChange = { change in
-                Debuggie.sharedDebugger.registations[key] = change
+                Debuggie.sharedDebugger.setRecord(change, forKey: key)
             }
         }
 
