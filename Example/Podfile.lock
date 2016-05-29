@@ -1,0 +1,16 @@
+PODS:
+  - Debuggie (0.1.0)
+
+DEPENDENCIES:
+  - Debuggie (from `../`)
+
+EXTERNAL SOURCES:
+  Debuggie:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Debuggie: 5c5981f2f9c71ed42077b1e57d94d46394f96aff
+
+PODFILE CHECKSUM: adc4cc3699d130a9cf96b846559334c209299bf5
+
+COCOAPODS: 1.0.0
