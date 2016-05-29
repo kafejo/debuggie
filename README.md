@@ -5,20 +5,20 @@
 [![License](https://img.shields.io/cocoapods/l/Debuggie.svg?style=flat)](http://cocoapods.org/pods/Debuggie)
 [![Platform](https://img.shields.io/cocoapods/p/Debuggie.svg?style=flat)](http://cocoapods.org/pods/Debuggie)
 
-## Example
+Debuggie is simple visualizer for your app constants. It allows you to easily change what you want without recompiling your app every time you want to enable/disable your debuging macros. 
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+Secret table with settings (accessible through volume buttons on your phone)
+<img src="https://raw.githubusercontent.com/kafejo/debuggie/master/debuggie-ss.png" width="200" />
 
-## Requirements
+Debuggie is under heavy development.
 
 ## Installation
 
-Debuggie is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+Debuggie will be available through [CocoaPods](http://cocoapods.org).
 
-```ruby
-pod "Debuggie"
-```
+[//]: # (```ruby)
+[//]: # (pod "Debuggie")
+[//]: # (```)
 
 ## Author
 
