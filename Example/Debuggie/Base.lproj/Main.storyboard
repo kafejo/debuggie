@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7L-FF-bAz">
-                                <rect key="frame" x="89" y="368" width="142" height="32"/>
+                                <rect key="frame" x="89" y="436" width="142" height="32"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
                                 <state key="normal" title="Send test request">
                                     <color key="titleColor" red="0.99215686270000003" green="0.32156862749999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -28,7 +28,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waiting for request output" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r7r-U3-1vB">
-                                <rect key="frame" x="30" y="314" width="260" height="16"/>
+                                <rect key="frame" x="30" y="382" width="260" height="16"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -36,9 +36,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.99215686270000003" green="0.73833142112416106" blue="0.40390799772953018" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="a7L-FF-bAz" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="100" id="0PA-gs-rnJ"/>
                             <constraint firstItem="a7L-FF-bAz" firstAttribute="top" secondItem="r7r-U3-1vB" secondAttribute="bottom" constant="38" id="0th-zu-XFV"/>
                             <constraint firstItem="r7r-U3-1vB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="30" id="1Jm-ZA-gAZ"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="a7L-FF-bAz" secondAttribute="bottom" constant="100" id="3Be-fk-T8o"/>
                             <constraint firstItem="a7L-FF-bAz" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="EZM-vp-Yof"/>
                             <constraint firstAttribute="trailing" secondItem="r7r-U3-1vB" secondAttribute="trailing" constant="30" id="UCy-2O-DM0"/>
                         </constraints>
