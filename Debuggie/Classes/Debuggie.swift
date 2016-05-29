@@ -25,7 +25,7 @@ public class Debuggie: NSObject {
     }
     
     private var window: UIWindow?
-    var registations: [String: Bool] = [:]
+    var registations: [NamespacedKey: Bool] = [:]
     private var isDebug: Bool
     
     init(isDebug: Bool) {
@@ -40,6 +40,8 @@ public class Debuggie: NSObject {
             window?.rootViewController = UINavigationController(rootViewController: DebuggieViewController())
         }
     }
+    
+    // MARK: - Controls
     
     func listenVolumeButton(){
         
@@ -62,13 +64,45 @@ public class Debuggie: NSObject {
     }
 }
 
-public protocol DebuggableIdentifier {
-    associatedtype DebugIdentifier: RawRepresentable
-    static func allValues() -> [DebugIdentifier]
+// MARK: - Models
+
+struct NamespacedKey {
+    let namespace: String
+    let name: String
+    
+    var key: String {
+        return [namespace, name].joinWithSeparator(".")
+    }
 }
+
+func ==(lhs: NamespacedKey, rhs: NamespacedKey) -> Bool {
+    return lhs.key == rhs.key
+}
+
+extension NamespacedKey: Equatable { }
+
+extension NamespacedKey: Hashable {
+    var hashValue: Int {
+        return key.hashValue
+    }
+}
+
+extension NamespacedKey: Comparable { }
+
+func <(lhs: NamespacedKey, rhs: NamespacedKey) -> Bool {
+    return lhs.key < lhs.key
+}
+
+// MARK: - Debuggie protocol
 
 public protocol Debuggable {
     associatedtype DebugIdentifier: DebuggableIdentifier, RawRepresentable
+    static var namespace: String { get }
+}
+
+public protocol DebuggableIdentifier {
+    associatedtype DebugIdentifier: RawRepresentable
+    static func allValues() -> [DebugIdentifier]
 }
 
 public extension Debuggable where DebugIdentifier.RawValue == String {
@@ -79,14 +113,16 @@ public extension Debuggable where DebugIdentifier.RawValue == String {
         }
         
         for value in DebugIdentifier.allValues() {
-            let key = value.rawValue as! String
+            let name = value.rawValue as! String
+            let key = NamespacedKey(namespace: namespace, name: name)
             Debuggie.sharedDebugger.registations[key] = true
         }
     }
     
     static func debugEnabled(identifier: DebugIdentifier) -> Bool {
         if Debuggie.sharedDebugger.isDebug {
-            return Debuggie.sharedDebugger.registations[identifier.rawValue] ?? false
+            let key = NamespacedKey(namespace: namespace, name: identifier.rawValue)
+            return Debuggie.sharedDebugger.registations[key] ?? false
         } else {
             return false
         }

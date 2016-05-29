@@ -39,4 +39,8 @@ extension TestService: Debuggable {
             return [.TestRequest, .TestRequest2]
         }
     }
+    
+    static var namespace: String {
+        return "Test service"
+    }
 }
