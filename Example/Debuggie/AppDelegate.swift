@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Debuggie.createShared()
         TestService.attachToSharedDebugger()
+        TestService2.attachToSharedDebugger()
         
         return true
     }
